@@ -1,10 +1,17 @@
 import React from 'react'
 
+const RISK_THRESHOLDS = {
+  CRITICAL: 30,
+  HIGH: 50,
+  MODERATE: 65,
+  LOW: 80,
+}
+
 const getRiskInfo = (score) => {
-  if (score <= 30) return { label: 'CRITICAL RISK', color: '#ff4757', glow: 'rgba(255,71,87,0.4)' }
-  if (score <= 50) return { label: 'HIGH RISK', color: '#ff4757', glow: 'rgba(255,71,87,0.3)' }
-  if (score <= 65) return { label: 'MODERATE RISK', color: '#ffa502', glow: 'rgba(255,165,2,0.3)' }
-  if (score <= 80) return { label: 'LOW RISK', color: '#ffd32a', glow: 'rgba(255,211,42,0.3)' }
+  if (score <= RISK_THRESHOLDS.CRITICAL) return { label: 'CRITICAL RISK', color: '#ff4757', glow: 'rgba(255,71,87,0.4)' }
+  if (score <= RISK_THRESHOLDS.HIGH) return { label: 'HIGH RISK', color: '#ff4757', glow: 'rgba(255,71,87,0.3)' }
+  if (score <= RISK_THRESHOLDS.MODERATE) return { label: 'MODERATE RISK', color: '#ffa502', glow: 'rgba(255,165,2,0.3)' }
+  if (score <= RISK_THRESHOLDS.LOW) return { label: 'LOW RISK', color: '#ffd32a', glow: 'rgba(255,211,42,0.3)' }
   return { label: 'SECURE', color: '#00ff88', glow: 'rgba(0,255,136,0.4)' }
 }
 

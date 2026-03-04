@@ -99,18 +99,17 @@ async def scan_github_repo(repo_url: str, branch: str = "main") -> dict:
             tree_resp.raise_for_status()
             tree = tree_resp.json().get("tree", [])
 
-        # Pick up to 5 source code files to scan
-        extensions = {".py", ".js", ".ts", ".java", ".php", ".go", ".rb", ".cs"}
-        files_to_scan = [
-            item for item in tree
-            if item.get("type") == "blob"
-            and any(item["path"].endswith(ext) for ext in extensions)
-        ][:5]
+            # Pick up to 5 source code files to scan
+            extensions = {".py", ".js", ".ts", ".java", ".php", ".go", ".rb", ".cs"}
+            files_to_scan = [
+                item for item in tree
+                if item.get("type") == "blob"
+                and any(item["path"].endswith(ext) for ext in extensions)
+            ][:5]
 
-        combined_code = ""
-        for f in files_to_scan:
-            raw_url = f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{f['path']}"
-            async with httpx.AsyncClient(timeout=30, headers=headers) as client:
+            combined_code = ""
+            for f in files_to_scan:
+                raw_url = f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{f['path']}"
                 r = await client.get(raw_url)
                 if r.status_code == 200:
                     combined_code += f"\n\n# === FILE: {f['path']} ===\n" + r.text[:2000]
