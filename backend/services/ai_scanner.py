@@ -10,6 +10,9 @@ load_dotenv()
 
 _client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY", ""))
 _MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
+# Maximum characters read per file when scanning a GitHub repository.
+# Increase via MAX_FILE_CHARS env var for more thorough analysis.
+_MAX_FILE_CHARS = int(os.getenv("MAX_FILE_CHARS", "4000"))
 
 SCAN_PROMPT = """You are an expert cybersecurity engineer performing a thorough code security review.
 
@@ -112,7 +115,7 @@ async def scan_github_repo(repo_url: str, branch: str = "main") -> dict:
                 raw_url = f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{f['path']}"
                 r = await client.get(raw_url)
                 if r.status_code == 200:
-                    combined_code += f"\n\n# === FILE: {f['path']} ===\n" + r.text[:2000]
+                    combined_code += f"\n\n# === FILE: {f['path']} ===\n" + r.text[:_MAX_FILE_CHARS]
 
         if not combined_code:
             combined_code = "# No source files found in repository"
