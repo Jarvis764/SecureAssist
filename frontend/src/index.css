@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cyber-dark text-slate-200;
+  }
+}
+
+@layer components {
+  .cyber-panel {
+    @apply bg-cyber-panel border border-cyber-border rounded-xl p-6;
+  }
+
+  .cyber-btn {
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-200 cursor-pointer;
+  }
+
+  .cyber-btn-primary {
+    @apply cyber-btn bg-cyber-blue text-cyber-dark hover:shadow-glow-blue hover:scale-105 active:scale-100;
+  }
+
+  .cyber-btn-secondary {
+    @apply cyber-btn border border-cyber-border text-slate-300 hover:border-cyber-blue hover:text-cyber-blue;
+  }
+}
